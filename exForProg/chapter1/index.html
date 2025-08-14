@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tip Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+      Tip Calculator
+    </h2>
+
+    <div class="space-y-6">
+      <div>
+        <label for="billCost" class="block text-gray-700 text-sm font-bold mb-2">
+          Cost of Bill ($)
+        </label>
+        <input type="number" id="billCost" placeholder="Ex: 125.50"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+          step="0.01" min="0" required>
+      </div>
+
+      <div>
+        <label for="tipRate" class="block text-gray-700 text-sm font-bold mb-2">
+          Tip rate (%)
+        </label>
+        <input type="number" id="tipRate" placeholder="Ex: 15"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+          min="0" max="100" required>
+      </div>
+
+      <button id="calculateBtn"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline w-full text-lg">
+        Calcular
+      </button>
+    </div>
+
+    <div id="results" class="mt-8 p-6 bg-blue-50 border border-blue-200 rounded-lg hidden">
+      <p class="text-lg text-gray-700 mb-2">
+        A gorjeta é: <span id="tipAmount" class="font-bold text-blue-700 text-xl"></span>
+      </p>
+      <p class="text-2xl font-bold text-blue-800 mt-4">
+        O total é: <span id="totalAmount"></span>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function calculateTip() {
+      const billCostInput = document.getElementById('billCost');
+      const tipRateInput = document.getElementById('tipRate');
+      const resultsDiv = document.getElementById('results');
+      const tipAmountSpan = document.getElementById('tipAmount');
+      const totalAmountSpan = document.getElementById('totalAmount');
+
+      const bill = parseFloat(billCostInput.value);
+      const tipRate = parseFloat(tipRateInput.value);
+
+      if (isNaN(bill) || bill < 0 || isNaN(tipRate) || tipRate < 0) {
+        alert('Please, input valid values for a bill and tip.');
+        resultsDiv.classList.add('hidden');
+        return;
+      }
+
+      const tip = bill * (tipRate / 100);
+      const total = bill + tip;
+
+      tipAmountSpan.textContent = `R$ ${tip.toFixed(2)}`;
+      totalAmountSpan.textContent = `R$ ${total.toFixed(2)}`;
+
+      resultsDiv.classList.remove('hidden');
+    }
+
+    document.getElementById('calculateBtn').addEventListener('click', calculateTip);
+    document.getElementById('billCost').addEventListener('input', calculateTip);
+    document.getElementById('tipRate').addEventListener('input', calculateTip);
+  </script>
+
+</body>
+
+</html>
